@@ -157,7 +157,7 @@ namespace AppEnd
                 IncludeFields = includeFields,
                 WriteIndented = indented,
                 DefaultIgnoreCondition = ignorePolicy,
-                IgnoreReadOnlyProperties = true,
+                IgnoreReadOnlyProperties = true
             });
         }
         public static string ToJsonStringByBuiltInAllDefaults(this object? o)
