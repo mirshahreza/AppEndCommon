@@ -138,9 +138,9 @@ namespace AppEnd
         }
 
         #region JSON
-        public static string FromObjectToJsonByNewtonsoft(this object o, Newtonsoft.Json.Formatting indenting = Newtonsoft.Json.Formatting.None)
+        public static string ToJsonStringByNewtonsoft(this object? o, bool indented = true)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(o, indenting);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(o, indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
         }
         public static JObject FromJsonToJObjectByNewtonsoft(this string s)
         {
@@ -150,7 +150,7 @@ namespace AppEnd
         {
             return JArray.Parse(s);
         }
-        public static string ToJsonStringByBuiltIn(this object o, bool indented = true, bool includeFields = true, JsonIgnoreCondition ignorePolicy = JsonIgnoreCondition.WhenWritingDefault)
+        public static string ToJsonStringByBuiltIn(this object? o, bool indented = true, bool includeFields = true, JsonIgnoreCondition ignorePolicy = JsonIgnoreCondition.WhenWritingDefault)
         {
             return JsonSerializer.Serialize(o, options: new()
             {
@@ -160,13 +160,13 @@ namespace AppEnd
                 IgnoreReadOnlyProperties = true,
             });
         }
-        public static string ToJsonStringByBuiltInAllDefaults(this object o)
+        public static string ToJsonStringByBuiltInAllDefaults(this object? o)
         {
             return JsonSerializer.Serialize(o);
         }
         public static JsonElement ToJsonElementByNewton(this object o)
         {
-            return JsonSerializer.Deserialize<JsonElement>(o.FromObjectToJsonByNewtonsoft());
+            return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByNewtonsoft());
         }
         public static JsonElement ToJsonElementByBuiltIn(this object o)
         {
