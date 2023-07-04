@@ -33,7 +33,7 @@ $Methods$
         public static string CSharpMethodBody => @"
         public static object? $MethodName$(JsonElement ClientQueryJE)
         {
-            return AppEndDbIO.ClientQuery.Instance(ClientQueryJE).Exec();
+            return AppEndDbIO.ClientQuery.GetInstanceByQueryJson(ClientQueryJE).Exec();
         }";
         
 
