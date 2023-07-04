@@ -131,9 +131,9 @@ namespace AppEnd
 
         public static string RemoveUnNecessaryEmptyLines(this string s)
         {
-            s = s.Replace("\r\n\r\n\r\n\r\n", Environment.NewLine);
-            s = s.Replace("\r\n\r\n\r\n", Environment.NewLine);
-            s = s.Replace("\r\n\r\n", Environment.NewLine);
+            s = s.Replace(RepeatN(SV.NL, 4), SV.NL);
+            s = s.Replace(RepeatN(SV.NL, 3), SV.NL);
+            s = s.Replace(RepeatN(SV.NL, 2), SV.NL);
             return s;
         }
 
