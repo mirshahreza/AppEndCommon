@@ -2,7 +2,7 @@
 {
     public class AppEndException : Exception
     {
-        List<KeyValuePair<string, string>> ErrorMetadata = new();
+        List<KeyValuePair<string, object>> ErrorMetadata = new();
 
         public AppEndException()
         {
@@ -17,13 +17,13 @@
         }
 
 
-        public AppEndException AddParam(string name, string value)
+        public AppEndException AddParam(string name, object value)
         {
-            ErrorMetadata.Add(new KeyValuePair<string, string>(name, value));
+            ErrorMetadata.Add(new KeyValuePair<string, object>(name, value));
             return this;
         }
 
-        public AppEndException SetMetaData(List<KeyValuePair<string, string>> errorMetadata)
+        public AppEndException SetMetaData(List<KeyValuePair<string, object>> errorMetadata)
         {
             ErrorMetadata = errorMetadata;
             return this;

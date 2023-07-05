@@ -53,7 +53,7 @@ namespace AppEnd
         {
             throw new AppEndException(message);
         }
-        public static Exception ThrowEx(string message, List<KeyValuePair<string, string>> errorMetadata)
+        public static Exception ThrowEx(string message, List<KeyValuePair<string, object>> errorMetadata)
         {
             throw new AppEndException(message).SetMetaData(errorMetadata);
         }
