@@ -42,14 +42,14 @@ namespace AppEnd
         public static JArray ToJArray(this JToken? jToken)
         {
             if (jToken is null) return new();
-            if (jToken is not JArray) StaticMethods.ThrowArgEx("Input parameter is not JArray");
+            if (jToken is not JArray) StaticMethods.ThrowEx("Input parameter is not JArray");
             return (JArray)jToken;
         }
 
         public static JObject ToJObject(this JToken? jToken)
         {
             if (jToken == null) return new();
-            if (jToken is not JObject) StaticMethods.ThrowArgEx("Input parameter is not JObject");
+            if (jToken is not JObject) StaticMethods.ThrowEx("Input parameter is not JObject");
             return (JObject)jToken;
         }
 

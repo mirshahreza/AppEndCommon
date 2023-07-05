@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -48,16 +47,17 @@ namespace AppEnd
             byte[] outBytes = new[] { a, b, c, d }.SelectMany(BitConverter.GetBytes).ToArray();
             return BitConverter.ToString(outBytes).Replace("-", "").ToUpper();
         }
-        
+
 
         public static Exception ThrowEx(string message)
         {
-            throw new Exception(message);
+            throw new AppEndException(message);
         }
-        public static Exception ThrowArgEx(string message)
+        public static Exception ThrowEx(string message, List<KeyValuePair<string, string>> errorMetadata)
         {
-            throw new ArgumentException(message);
+            throw new AppEndException(message).SetMetaData(errorMetadata);
         }
+
 
         #region Validators
         public static void ValidateStringNotNullOrEmpty(this string s, string paramName)
