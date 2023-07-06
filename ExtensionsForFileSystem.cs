@@ -10,7 +10,7 @@
                 file.CopyTo(Path.Combine(target.FullName, file.Name));
         }
 
-        public static IEnumerable<string> GetFiles(this DirectoryInfo directory, string? searchPattern = null)
+        public static IEnumerable<string> GetFilesRecursive(this DirectoryInfo directory, string? searchPattern = null)
         {
             string path = directory.FullName;
             Queue<string> queue = new Queue<string>();
