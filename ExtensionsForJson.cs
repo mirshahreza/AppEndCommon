@@ -3,13 +3,10 @@ using System.Text.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Text.Json.Serialization;
-using System.Security.Cryptography;
-using JWT;
-using JWT.Algorithms;
 
 namespace AppEnd
 {
-    public static class Extensions
+    public static class ExtensionsForJson
     {
         public static string ToStringEmpty(this JToken? jToken)
         {
@@ -22,34 +19,20 @@ namespace AppEnd
             return jValue.ToString();
         }
 
-        public static string ToStringEmpty(this object? o)
-        {
-            if (o is null) return "";
-            return o.ToString();
-        }
-        public static int ToIntSafe(this object? o, int ifHasProblem = -1)
-        {
-            string i = o.ToStringEmpty();
-            if (i.IsNullOrEmpty()) return ifHasProblem;
-            int ii;
-            if (int.TryParse(i, out ii))
-            {
-                return ii;
-            }
-            return ifHasProblem;
-        }
-
+       
         public static JArray ToJArray(this JToken? jToken)
         {
             if (jToken is null) return new();
-            if (jToken is not JArray) StaticMethods.ThrowEx("Input parameter is not JArray");
+            if (jToken is not JArray) new AppEndException("InputParameterIsNotJArray")
+                    .AddParam("Input", jToken);
             return (JArray)jToken;
         }
 
         public static JObject ToJObject(this JToken? jToken)
         {
             if (jToken == null) return new();
-            if (jToken is not JObject) StaticMethods.ThrowEx("Input parameter is not JObject");
+            if (jToken is not JObject) new AppEndException("InputParameterIsNotJObject")
+                    .AddParam("Input", jToken);
             return (JObject)jToken;
         }
 
@@ -85,59 +68,6 @@ namespace AppEnd
             return bool.Parse(((JValue)jToken).Value.ToStringEmpty());
         }
 
-        public static Type[] GetTypesReal(this Assembly asm)
-        {
-            return asm.GetTypes().Where(i => !i.Name.Contains("EmbeddedAttribute") && !i.Name.Contains("RefSafetyRulesAttribute")).ToArray();
-        }
-        public static MethodInfo[] GetMethodsReal(this Type type)
-        {
-            return type.GetMethods().Where(m => !m.Name.Equals("GetType") && !m.Name.Equals("ToString") && !m.Name.Equals("Equals") && !m.Name.Equals("GetHashCode")).ToArray();
-        }
-
-        public static string FixNull(this string? s, string alternate)
-        {
-            if (s == null) return alternate;
-            return s;
-        }
-        public static bool IsNullOrEmpty(this string? s)
-        {
-            if (s == null || s.Trim() == "") return true;
-            return false;
-        }
-        public static string FixNullOrEmpty(this string? s, string alternate)
-        {
-            if (s == null || s.Trim() == "") return alternate;
-            return s;
-        }
-        public static string RepeatN(this string s, int n)
-        {
-            string temp = "";
-            for (int i = 0; i < n; i++)
-            {
-                temp += s;
-            }
-            return temp;
-        }
-        public static string ReplaceLastOccurrence(this string source, string find, string replace)
-        {
-            int place = source.LastIndexOf(find);
-
-            if (place == -1)
-                return source;
-
-            string result = source.Remove(place, find.Length).Insert(place, replace);
-            return result;
-        }
-
-        public static string RemoveUnNecessaryEmptyLines(this string s)
-        {
-            s = s.Replace(RepeatN(SV.NL, 4), SV.NL);
-            s = s.Replace(RepeatN(SV.NL, 3), SV.NL);
-            s = s.Replace(RepeatN(SV.NL, 2), SV.NL);
-            return s;
-        }
-
-        #region JSON
         public static string ToJsonStringByNewtonsoft(this object? o, bool indented = true)
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(o, indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
@@ -179,62 +109,6 @@ namespace AppEnd
             return JsonSerializer.Deserialize<string[]>(o);
         }
 
-        #endregion
-
-
-        #region Encription
-        private static JWT.Serializers.JsonNetSerializer jsonNetSerializer = new JWT.Serializers.JsonNetSerializer();
-        private static JwtBase64UrlEncoder jwtBase64UrlEncoder = new JwtBase64UrlEncoder();
-        private static HMACSHA512Algorithm hMACSHA256Algorithm = new HMACSHA512Algorithm();
-        private static UtcDateTimeProvider utcDateTimeProvider = new UtcDateTimeProvider();
-        private static JwtValidator jwtValidator = new JwtValidator(jsonNetSerializer, utcDateTimeProvider);
-        private static JwtEncoder enc = new JwtEncoder(hMACSHA256Algorithm, jsonNetSerializer, jwtBase64UrlEncoder);
-        private static JwtDecoder dec = new JwtDecoder(jsonNetSerializer, jwtValidator, jwtBase64UrlEncoder, hMACSHA256Algorithm);
-
-        public static string Encode(this object o, string secret)
-        {
-            return enc.Encode(null, o, Encoding.Unicode.GetBytes(secret));
-        }
-
-        public static string Decode(this string token, string secret)
-        {
-            if (token.FixNullOrEmpty("null").Equals("null")) StaticMethods.ThrowEx("Input object for encoding can not be null or empty");
-            JwtParts jpS;
-            jpS = new JwtParts(token);
-            return dec.Decode(jpS, Encoding.Unicode.GetBytes(secret), true);
-        }
-
-        public static string GetMD5Hash(this string input)
-        {
-            MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-            byte[] hash = md5.ComputeHash(inputBytes);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-            return sb.ToString();
-        }
-        public static string GetMD4Hash(this string input)
-        {
-            return StaticMethods.Md4Hash(input);
-        }
-
-        #endregion
-
-        #region FileSystem
-        public static void CopyFilesRecursively(this DirectoryInfo source, DirectoryInfo target)
-        {
-            foreach (DirectoryInfo dir in source.GetDirectories())
-                CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
-            foreach (FileInfo file in source.GetFiles())
-                file.CopyTo(Path.Combine(target.FullName, file.Name));
-        }
-
-        #endregion
-
-
         public static object ToOrigType(this JsonElement s, ParameterInfo parameterInfo)
         {
             if (parameterInfo.ParameterType == typeof(int)) return int.Parse(s.ToString());
@@ -250,5 +124,6 @@ namespace AppEnd
             if (parameterInfo.ParameterType == typeof(byte[])) return Encoding.UTF8.GetBytes(s.ToString());
             return s;
         }
+
     }
 }
