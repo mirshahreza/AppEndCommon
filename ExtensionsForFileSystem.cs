@@ -51,13 +51,17 @@
         public static void ValidateIfExist(this FileInfo fileInfo)
         {
             if (File.Exists(fileInfo.FullName)) new AppEndException($"FileAlreadyExist")
-                    .AddParam("Path", fileInfo.FullName);
+                    .AddParam("Path", fileInfo.FullName)
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                    ;
         }
 
         public static void ValidateIfNotExist(this FileInfo fileInfo)
         {
             if (!File.Exists(fileInfo.FullName)) new AppEndException("FileDoesNotExist")
-                    .AddParam("Path", fileInfo.FullName);
+                    .AddParam("Path", fileInfo.FullName)
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                    ;
         }
 
         public static string GetCacheKeyForFiles(this FileInfo fileInfo)

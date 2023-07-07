@@ -54,7 +54,9 @@ namespace AppEnd
                     if (AppSettings["AppEnd"] == null)
                     {
                         throw new AppEndException("AppSettingsFileMustContains")
-                            .AddParam("Section", "AppEnd:ServerObjectsPath");
+                            .AddParam("Section", "AppEnd:ServerObjectsPath")
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                            ;
                     }
                     serverObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?["ServerObjectsPath"]?.ToString())}";
                 }
@@ -67,7 +69,9 @@ namespace AppEnd
         {
             get
             {
-                if (!File.Exists("appsettings.json")) throw new AppEndException("AppSettingsFileIsNotExist");
+                if (!File.Exists("appsettings.json")) throw new AppEndException("AppSettingsFileIsNotExist")
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                            ;
                 if (appsettings is null) appsettings = JsonNode.Parse(File.ReadAllText("appsettings.json"));
                 return appsettings;
             }

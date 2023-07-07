@@ -45,7 +45,9 @@
         public static void ValidateStringNotNullOrEmpty(this string s, string paramName)
         {
             if (s == null || s.Trim() == "") new AppEndException($"CanNotBeNullOrEmpty")
-                    .AddParam("ParamName", paramName);
+                    .AddParam("ParamName", paramName)
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                    ;
         }
 
     }

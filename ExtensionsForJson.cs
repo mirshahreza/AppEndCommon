@@ -24,7 +24,9 @@ namespace AppEnd
         {
             if (jToken is null) return new();
             if (jToken is not JArray) new AppEndException("InputParameterIsNotJArray")
-                    .AddParam("Input", jToken);
+                    .AddParam("Input", jToken)
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                    ;
             return (JArray)jToken;
         }
 
@@ -32,7 +34,9 @@ namespace AppEnd
         {
             if (jToken == null) return new();
             if (jToken is not JObject) new AppEndException("InputParameterIsNotJObject")
-                    .AddParam("Input", jToken);
+                    .AddParam("Input", jToken)
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                    ;
             return (JObject)jToken;
         }
 

@@ -2,7 +2,7 @@
 {
     public class AppEndException : Exception
     {
-        List<KeyValuePair<string, object>> ErrorMetadata = new();
+        public List<KeyValuePair<string, object>> ErrorMetadata = new();
 
         public AppEndException()
         {
