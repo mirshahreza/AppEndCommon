@@ -3,23 +3,45 @@ using System.Text.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Text.Json.Serialization;
+using System.Text.Json.Nodes;
 
 namespace AppEnd
 {
     public static class ExtensionsForJson
     {
-        public static T? TryDeserializeTo<T>(string jsonString)
+        public static T? TryDeserializeTo<T>(string jsonString, JsonSerializerOptions? jsonSerializerOptions = null)
         {
             try
             {
-                return JsonSerializer.Deserialize<T>(jsonString);
+                return JsonSerializer.Deserialize<T>(jsonString, options: jsonSerializerOptions);
             }
             catch
             {
                 return default(T);
             }
         }
-
+        public static T? TryDeserializeTo<T>(JsonElement jsonElement, JsonSerializerOptions? jsonSerializerOptions = null)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<T>(jsonElement, options: jsonSerializerOptions);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+        public static T? TryDeserializeTo<T>(JsonObject jsonObject)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<T>(jsonObject);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
         public static string ToStringEmpty(this JToken? jToken)
         {
             if (jToken == null) return "";
