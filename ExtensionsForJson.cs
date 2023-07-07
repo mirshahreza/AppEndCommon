@@ -8,6 +8,18 @@ namespace AppEnd
 {
     public static class ExtensionsForJson
     {
+        public static T? TryDeserializeTo<T>(string jsonString)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<T>(jsonString);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
         public static string ToStringEmpty(this JToken? jToken)
         {
             if (jToken == null) return "";
