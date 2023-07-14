@@ -56,4 +56,26 @@ $Methods$
 
         
     }
+
+    public class AppEndMethod
+    {
+        private string methodName = "";
+        public string MethodImplementation 
+        {
+            get
+            {
+                return @"
+        public static object? " + methodName + @"(JsonElement ClientQueryJE)
+        {
+            return AppEndDbIO.ClientQuery.GetInstanceByQueryJson(ClientQueryJE).Exec();
+        }
+";
+            }
+        }
+        public AppEndMethod(string methodName)
+        {
+            this.methodName = methodName;
+        }
+    }
+
 }
