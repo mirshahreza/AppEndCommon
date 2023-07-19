@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AppEnd
 {
@@ -54,14 +55,7 @@ namespace AppEnd
 
         public static string RemoveWhitelines(this string s)
         {
-            string[] ss = s.Split("\n");
-            StringBuilder sb = new StringBuilder();
-            foreach (string line in ss)
-            {
-                if(line.Trim().IsNullOrEmpty()) continue;
-                sb.Append(line);
-            }
-            return sb.ToString();
+            return Regex.Replace(s, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
         }
     }
 }
