@@ -18,5 +18,15 @@
             }
             return ifHasProblem;
         }
+
+        public static object FixNull(this object? o, object ifNull)
+        {
+            if (o is null && ifNull is null) throw new ArgumentNullException(nameof(ifNull));
+            if (o is null) return ifNull;
+            else return o;
+        }
+
+
+
     }
 }

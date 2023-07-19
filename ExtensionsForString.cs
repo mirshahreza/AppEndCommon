@@ -1,4 +1,6 @@
-﻿namespace AppEnd
+﻿using System.Text;
+
+namespace AppEnd
 {
     public static class ExtensionsForString
     {
@@ -50,5 +52,16 @@
                     ;
         }
 
+        public static string RemoveWhitelines(this string s)
+        {
+            string[] ss = s.Split("\n");
+            StringBuilder sb = new StringBuilder();
+            foreach (string line in ss)
+            {
+                if(line.Trim().IsNullOrEmpty()) continue;
+                sb.Append(line);
+            }
+            return sb.ToString();
+        }
     }
 }

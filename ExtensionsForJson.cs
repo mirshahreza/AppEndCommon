@@ -160,6 +160,9 @@ namespace AppEnd
             if (parameterInfo.ParameterType == typeof(Decimal)) return Decimal.Parse(s.ToString());
             if (parameterInfo.ParameterType == typeof(string)) return s.ToString();
             if (parameterInfo.ParameterType == typeof(byte[])) return Encoding.UTF8.GetBytes(s.ToString());
+            if (parameterInfo.ParameterType == typeof(List<string>)) return s.Deserialize<List<string>>().FixNull(new List<string>());
+
+
             return s;
         }
 
