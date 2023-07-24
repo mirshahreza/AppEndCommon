@@ -12,6 +12,7 @@ namespace AppEnd
     public class AppEndSettings
     {
         private static string? serverObjectsPath;
+        private static string? clientObjectsPath;
         private static JsonArray? dbServers;
         public static JsonArray DbServers
         {
@@ -61,6 +62,24 @@ namespace AppEnd
                     serverObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?["ServerObjectsPath"]?.ToString())}";
                 }
                 return serverObjectsPath;
+            }
+        }
+        public static string ClientObjectsPath
+        {
+            get
+            {
+                if (clientObjectsPath == null)
+                {
+                    if (AppSettings["AppEnd"] == null)
+                    {
+                        throw new AppEndException("AppSettingsFileMustContains")
+                            .AddParam("Section", "AppEnd:ClientObjectsPath")
+                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                            ;
+                    }
+                    clientObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?["ClientObjectsPath"]?.ToString())}";
+                }
+                return clientObjectsPath;
             }
         }
 
