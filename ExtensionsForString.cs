@@ -5,6 +5,25 @@ namespace AppEnd
 {
     public static class ExtensionsForString
     {
+        public static string BeginingCommonPart(this string? s1, string s2)
+        {
+            if (s1 is null || s2 is null) return "";
+            char[] c1 = s1.ToCharArray();
+            char[] c2 = s2.ToCharArray();
+            List<char> result = new List<char>();
+
+            int minLen = c1.Length < c2.Length ? c1.Length : c2.Length;
+
+            int ind = 0;
+            while (ind < minLen)
+            {
+                if (c1[ind] == c2[ind]) result.Add(c1[ind]);
+                else break;
+                ind++;
+            }
+
+            return string.Join("", result.ToArray());
+        }
         public static string FixNull(this string? s, string alternate)
         {
             if (s == null) return alternate;
