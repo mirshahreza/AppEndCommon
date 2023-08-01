@@ -5,6 +5,12 @@ namespace AppEnd
 {
     public static class ExtensionsForString
     {
+        public static string ReplaceSafe(this string? s, string? v1, string v2)
+        {
+            if (s is null || s == "") return "";
+            if (v1 is null || v1 == "") return s;
+            return s.Replace(v1, v2);
+        }
         public static string BeginingCommonPart(this string? s1, string s2)
         {
             if (s1 is null || s2 is null) return "";
