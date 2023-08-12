@@ -106,11 +106,11 @@ namespace AppEnd
             return bool.Parse(((JValue)jToken).Value.ToStringEmpty());
         }
 
-        public static string ToJsonStringByNewtonsoft(this object? o, bool indented = true)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(o, indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
-        }
-        public static JObject FromJsonToJObjectByNewtonsoft(this string s)
+		public static string ToJsonStringByNewtonsoft(this object? o, bool indented = true)
+		{
+			return Newtonsoft.Json.JsonConvert.SerializeObject(o, indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
+		}
+		public static JObject FromJsonToJObjectByNewtonsoft(this string s)
         {
             return JObject.Parse(s);
         }
@@ -132,11 +132,11 @@ namespace AppEnd
         {
             return JsonSerializer.Serialize(o);
         }
-        public static JsonElement ToJsonElementByNewton(this object o)
-        {
-            return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByNewtonsoft());
-        }
-        public static JsonElement ToJsonElementByBuiltIn(this object o)
+		public static JsonElement ToJsonElementByNewton(this object o)
+		{
+			return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByNewtonsoft());
+		}
+		public static JsonElement ToJsonElementByBuiltIn(this object o)
         {
             return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByBuiltIn(false));
         }
