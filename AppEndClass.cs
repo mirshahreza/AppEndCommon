@@ -16,6 +16,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AppEndDbIO;
+using AppEnd;
 
 namespace $Namespace$
 {
@@ -27,9 +28,9 @@ $Methods$
 ";
 
         private string CSharpMethodBody => @"
-        public static object? $MethodName$(JsonElement ClientQueryJE)
+        public static object? $MethodName$(JsonElement ClientQueryJE, AppEndUser? Actor)
         {
-            return AppEndDbIO.ClientQuery.GetInstanceByQueryJson(ClientQueryJE).Exec();
+            return AppEndDbIO.ClientQuery.GetInstanceByQueryJson(ClientQueryJE, Actor?.ContextInfo).Exec();
         }
 ";
 
