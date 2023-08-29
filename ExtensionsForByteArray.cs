@@ -8,8 +8,6 @@ namespace AppEnd
     {
         public static byte[] ResizeImage(this byte[] imageFile, int targetSize)
         {
-            //return imageFile;
-
             using (Image oldImage = Image.FromStream(new MemoryStream(imageFile), true, true))
             {
                 Size newSize = CalculateIntelligentDimensions(oldImage.Size, targetSize);
