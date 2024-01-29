@@ -5,7 +5,14 @@ namespace AppEnd
 {
     public static class ExtensionsForString
     {
-        public static string ReplaceSafe(this string? s, string? v1, string v2)
+		public static bool ContainsIgnoreCase(this string? s, string? testString)
+		{
+            if (s is null || s == "" || testString is null || testString == "") return false;
+			if (s.ToLower() == testString.ToLower()) return true;
+			return false;
+		}
+
+		public static string ReplaceSafe(this string? s, string? v1, string v2)
         {
             if (s is null || s == "") return "";
             if (v1 is null || v1 == "") return s;

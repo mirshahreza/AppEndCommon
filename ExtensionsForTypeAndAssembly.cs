@@ -10,7 +10,7 @@ namespace AppEnd
     {
         public static Type[] GetTypesReal(this Assembly asm)
         {
-            return asm.GetTypes().Where(i => !i.Name.Contains("EmbeddedAttribute") && !i.Name.Contains("RefSafetyRulesAttribute")).ToArray();
+            return asm.GetTypes().Where(i => !i.Name.ContainsIgnoreCase("EmbeddedAttribute") && !i.Name.ContainsIgnoreCase("RefSafetyRulesAttribute")).ToArray();
         }
         public static MethodInfo[] GetMethodsReal(this Type type)
         {
