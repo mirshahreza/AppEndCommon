@@ -3,12 +3,20 @@ using System.Text.RegularExpressions;
 
 namespace AppEnd
 {
-    public static class ExtensionsForString
+    public static partial class ExtensionsForString
     {
+		public static bool EqualsIgnoreCase(this string? s, string? testString)
+		{
+            if (s is null && testString is null) return true;
+			if (s is null || s == "" || testString is null || testString == "") return false;
+			if (s.Equals(testString, StringComparison.CurrentCultureIgnoreCase)) return true;
+			return false;
+		}
+
 		public static bool ContainsIgnoreCase(this string? s, string? testString)
 		{
-            if (s is null || s == "" || testString is null || testString == "") return false;
-			if (s.ToLower() == testString.ToLower()) return true;
+			if (s is null || s == "" || testString is null || testString == "") return false;
+			if (s.Contains(testString, StringComparison.CurrentCultureIgnoreCase)) return true;
 			return false;
 		}
 
@@ -23,7 +31,7 @@ namespace AppEnd
             if (s1 is null || s2 is null) return "";
             char[] c1 = s1.ToCharArray();
             char[] c2 = s2.ToCharArray();
-            List<char> result = new List<char>();
+            List<char> result = [];
 
             int minLen = c1.Length < c2.Length ? c1.Length : c2.Length;
 
@@ -87,7 +95,10 @@ namespace AppEnd
 
         public static string RemoveWhitelines(this string s)
         {
-            return Regex.Replace(s, @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline);
+            return RemoveWhitelinesRegex().Replace(s, string.Empty);
         }
-    }
+
+		[GeneratedRegex(@"^\s+$[\r\n]*", RegexOptions.Multiline)]
+		private static partial Regex RemoveWhitelinesRegex();
+	}
 }

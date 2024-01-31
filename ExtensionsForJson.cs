@@ -17,7 +17,7 @@ namespace AppEnd
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
         public static T? TryDeserializeTo<T>(JsonElement jsonElement, JsonSerializerOptions? jsonSerializerOptions = null)
@@ -28,7 +28,7 @@ namespace AppEnd
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
         public static T? TryDeserializeTo<T>(JsonObject jsonObject)
@@ -39,7 +39,7 @@ namespace AppEnd
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
         public static string ToStringEmpty(this JToken? jToken)
@@ -56,7 +56,7 @@ namespace AppEnd
        
         public static JArray ToJArray(this JToken? jToken)
         {
-            if (jToken is null) return new();
+            if (jToken is null) return [];
             if (jToken is not JArray) new AppEndException("InputParameterIsNotJArray")
                     .AddParam("Input", jToken)
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
@@ -66,7 +66,7 @@ namespace AppEnd
 
         public static JObject ToJObject(this JToken? jToken)
         {
-            if (jToken == null) return new();
+            if (jToken == null) return [];
             if (jToken is not JObject) new AppEndException("InputParameterIsNotJObject")
                     .AddParam("Input", jToken)
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
@@ -77,32 +77,32 @@ namespace AppEnd
         public static string FixNullToString(this JToken? jToken, string ifNull)
         {
             if (jToken == null) return ifNull;
-            if (jToken is JValue && ((JValue)jToken).Value == null) return ifNull;
+            if (jToken is JValue value && value.Value == null) return ifNull;
             return ((JValue)jToken).Value.ToStringEmpty();
         }
         public static string? FixNullToNullableString(this JToken? jToken, string? ifNull)
         {
             if (jToken == null) return ifNull;
-            if (jToken is JValue && ((JValue)jToken).Value == null) return ifNull;
+            if (jToken is JValue value && value.Value == null) return ifNull;
             return ((JValue)jToken).Value.ToStringEmpty();
         }
         public static int? FixNullToNullableInt(this JToken? jToken, int? ifNull)
         {
             if (jToken == null) return ifNull;
-            if (jToken is JValue && ((JValue)jToken).Value == null) return ifNull;
+            if (jToken is JValue value && value.Value == null) return ifNull;
             return int.Parse(((JValue)jToken).Value.ToStringEmpty());
         }
         public static int FixNullToInt(this JToken? jToken)
         {
             if (jToken is null) return -1;
-            if (jToken is JValue && ((JValue)jToken).Value == null) return -1;
+            if (jToken is JValue value && value.Value == null) return -1;
             return jToken.ToIntSafe();
         }
 
         public static bool FixNullToBool(this JToken? jToken, bool ifNull)
         {
             if (jToken == null) return ifNull;
-            if (jToken is JValue && ((JValue)jToken).Value == null) return ifNull;
+            if (jToken is JValue value && value.Value == null) return ifNull;
             return bool.Parse(((JValue)jToken).Value.ToStringEmpty());
         }
 

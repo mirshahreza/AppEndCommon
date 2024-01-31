@@ -20,13 +20,10 @@ namespace AppEnd
             {
                 if (dbServers == null)
                 {
-                    if (AppSettings["AppEnd"] == null)
+                    if (AppSettings["AppEnd"] == null) AppSettings["AppEnd"] = JsonNode.Parse("{}")?.AsObject();
+                    if (AppSettings["AppEnd"]?[nameof(DbServers)] == null)
                     {
-                        AppSettings["AppEnd"] = JsonNode.Parse("{}")?.AsObject();
-                    }
-                    if (AppSettings["AppEnd"]?["DbServers"] == null)
-                    {
-                        AppSettings["AppEnd"]["DbServers"] = JsonNode.Parse("[]")?.AsArray();
+                        AppSettings["AppEnd"][nameof(DbServers)] = JsonNode.Parse("[]")?.AsArray();
                         string s = JsonSerializer.Serialize(AppSettings, options: new()
                         {
                             WriteIndented = true
@@ -34,7 +31,7 @@ namespace AppEnd
                         File.WriteAllText("appsettings.json", s);
                         appsettings = null;
                     }
-                    dbServers = AppSettings["AppEnd"]?["DbServers"]?.AsArray();
+                    dbServers = AppSettings["AppEnd"]?[nameof(DbServers)]?.AsArray();
                 }
                 return dbServers;
             }
@@ -43,7 +40,7 @@ namespace AppEnd
         {
             get
             {
-                return AppSettings["AppEnd"]?["WorkspacePath"]?.AsValue().ToString() ?? "workspace";
+                return AppSettings["AppEnd"]?[nameof(WorkspacePath)]?.AsValue().ToString() ?? "workspace";
             }
         }
         public static string ServerObjectsPath
@@ -56,10 +53,10 @@ namespace AppEnd
                     {
                         throw new AppEndException("AppSettingsFileMustContains")
                             .AddParam("Section", "AppEnd:ServerObjectsPath")
-                    .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+                            .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
                     }
-                    serverObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?["ServerObjectsPath"]?.ToString())}";
+                    serverObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?[nameof(ServerObjectsPath)]?.ToString())}";
                 }
                 return serverObjectsPath;
             }
@@ -77,7 +74,7 @@ namespace AppEnd
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
                     }
-                    clientObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?["ClientObjectsPath"]?.ToString())}";
+                    clientObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?[nameof(ClientObjectsPath)]?.ToString())}";
                 }
                 return clientObjectsPath;
             }
@@ -91,8 +88,13 @@ namespace AppEnd
                 if (!File.Exists("appsettings.json")) throw new AppEndException("AppSettingsFileIsNotExist")
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
-                if (appsettings is null) appsettings = JsonNode.Parse(File.ReadAllText("appsettings.json"));
-                return appsettings;
+
+                appsettings ??= JsonNode.Parse(File.ReadAllText("appsettings.json"));
+
+				if (appsettings is null) throw new AppEndException("AppSettingsFileIsNotExist")
+					.AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+							;
+				return appsettings;
             }
         }
 

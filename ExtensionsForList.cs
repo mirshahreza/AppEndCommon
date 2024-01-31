@@ -7,17 +7,11 @@ namespace AppEnd
     {
 		public static void AddIfNotContains(this List<string> list, string name)
 		{
-			if (!list.ContainsIgnoreCase(name))
-			{
-				list.Add(name);
-			}
+			if (!list.ContainsIgnoreCase(name)) list.Add(name);
 		}
 		public static void AddSafe(this List<string> list, string? name)
 		{
-			if (name is not null)
-			{
-				list.Add(name);
-			}
+			if (name is not null) list.Add(name);
 		}
 
 		public static bool ContainsIgnoreCase(this List<string> list, string? testString)

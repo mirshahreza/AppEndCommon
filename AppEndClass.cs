@@ -6,61 +6,24 @@ using System.Threading.Tasks;
 
 namespace AppEnd
 {
-    public class AppEndClass
-    {
-//        private string CSharpClassBody => @"
-//using System;
-//using System.Text.Encodings;
-//using System.Text;
-//using System.Text.Encodings.Web;
-//using System.Text.Json;
-//using System.Text.Json.Serialization;
-//using AppEndDbIO;
-//using AppEnd;
+    public class AppEndClass(string className, string namespaceName)
+	{
+        private readonly string tempBody = CSharpImpBodies.ClassImp.Replace("$Namespace$", namespaceName).Replace("$ClassName$", className);
 
-//namespace $Namespace$
-//{
-//    public static class $ClassName$
-//    {
-//$Methods$
-//    }
-//}
-//";
+        public List<string> Methods { get; set; } = [];
 
-//        private string CSharpMethodBody => @"
-//        public static object? $MethodName$(JsonElement ClientQueryJE, AppEndUser? Actor)
-//        {
-//            return AppEndDbIO.ClientQuery.GetInstanceByQueryJson(ClientQueryJE, Actor?.ContextInfo).Exec();
-//        }
-//";
-
-        private string tempBody = "";
-
-        public List<string> Methods { get; set; } = new List<string>();
-
-        public AppEndClass(string className,string namespaceName) 
+		public string ToCode()
         {
-            tempBody = CSharpImpBodies.ClassImp
-				.Replace("$Namespace$", namespaceName)
-                .Replace("$ClassName$", className);
-        }
-
-        public string ToCode()
-        {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (var method in Methods)
-            {
-                sb.Append(CSharpImpBodies.MethodImp.Replace("$MethodName$", method));
-            }
-            return tempBody.Replace("$Methods$", sb.ToString());
+				sb.Append(CSharpImpBodies.MethodImp.Replace("$MethodName$", method));
+			return tempBody.Replace("$Methods$", sb.ToString());
         }
-
-        
     }
 
-    public class AppEndMethod
-    {
-        private string methodName = "";
+    public class AppEndMethod(string methodName)
+	{
+        private readonly string methodName = methodName;
         public string MethodImplementation 
         {
             get
@@ -68,14 +31,10 @@ namespace AppEnd
                 return CSharpImpBodies.MethodImp.Replace("$MethodName$", methodName);
 			}
         }
-        public AppEndMethod(string methodName)
-        {
-            this.methodName = methodName;
-        }
-    }
+	}
 
 
-    internal static class CSharpImpBodies
+	internal static class CSharpImpBodies
     {
         internal static string ClassImp => @"
 using System;
