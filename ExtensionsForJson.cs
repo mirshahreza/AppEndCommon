@@ -110,11 +110,11 @@ namespace AppEnd
 		{
 			return Newtonsoft.Json.JsonConvert.SerializeObject(o, indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None);
 		}
-		public static JObject FromJsonToJObjectByNewtonsoft(this string s)
+		public static JObject ToJObjectByNewtonsoft(this string s)
         {
             return JObject.Parse(s);
         }
-        public static JArray FromJsonToJArrayByNewtonsoft(this string s)
+        public static JArray ToJArrayByNewtonsoft(this string s)
         {
             return JArray.Parse(s);
         }
