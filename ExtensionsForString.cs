@@ -95,10 +95,13 @@ namespace AppEnd
 
         public static string RemoveWhitelines(this string s)
         {
-            return RemoveWhitelinesRegex().Replace(s, string.Empty);
+            return WhitelinesRegex().Replace(s, string.Empty);
         }
 
 		[GeneratedRegex(@"^\s+$[\r\n]*", RegexOptions.Multiline)]
-		private static partial Regex RemoveWhitelinesRegex();
+		public static partial Regex WhitelinesRegex();
+
+		[GeneratedRegex(@"shared.translate\(.*?\)", RegexOptions.Multiline)]
+		public static partial Regex JsTranslationRegex();
 	}
 }
