@@ -8,5 +8,10 @@ namespace AppEnd
 		public string UserName { get; set; } = "";
 		public string[] Roles { set; get; } = [];
         public Hashtable? ContextInfo { set; get; }
-    }
+		public string ContextCacheKey()
+		{
+			return $"U::Context,{UserName},{Id}";
+		}
+
+	}
 }
