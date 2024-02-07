@@ -1,9 +1,6 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-
-namespace AppEnd
+﻿namespace AppEnd
 {
-    public static class ExtensionsForStringArray
+	public static class ExtensionsForStringArray
 	{
 		public static bool ContainsIgnoreCase(this string[]? arr, string? testString)
 		{

@@ -1,9 +1,6 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-
-namespace AppEnd
+﻿namespace AppEnd
 {
-    public static class ExtensionsForList
+	public static class ExtensionsForList
     {
 		public static void AddIfNotContains(this List<string> list, string name)
 		{

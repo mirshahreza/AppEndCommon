@@ -1,12 +1,8 @@
 ﻿using System.Reflection;
-using System.Text.Json;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Text.Json.Serialization;
 
 namespace AppEnd
 {
-    public static class ExtensionsForTypeAndAssembly
+	public static class ExtensionsForTypeAndAssembly
     {
         public static Type[] GetTypesReal(this Assembly asm)
         {

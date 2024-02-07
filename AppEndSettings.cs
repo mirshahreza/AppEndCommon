@@ -1,15 +1,9 @@
-﻿using AppEnd;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace AppEnd
 {
-    public class AppEndSettings
+	public class AppEndSettings
     {
         private static string? serverObjectsPath;
         private static string? clientObjectsPath;
@@ -23,7 +17,14 @@ namespace AppEnd
                     if (AppSettings["AppEnd"] == null) AppSettings["AppEnd"] = JsonNode.Parse("{}")?.AsObject();
                     if (AppSettings["AppEnd"]?[nameof(DbServers)] == null)
                     {
-                        AppSettings["AppEnd"][nameof(DbServers)] = JsonNode.Parse("[]")?.AsArray();
+						if (AppSettings["AppEnd"] == null)
+						{
+							throw new AppEndException("AppSettingsFileMustContains")
+								.AddParam("Section", "AppEnd:ServerObjectsPath")
+								.AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
+								;
+						}
+						AppSettings["AppEnd"][nameof(DbServers)] = JsonNode.Parse("[]")?.AsArray();
                         string s = JsonSerializer.Serialize(AppSettings, options: new()
                         {
                             WriteIndented = true
@@ -56,7 +57,7 @@ namespace AppEnd
                             .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
                     }
-                    serverObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?[nameof(ServerObjectsPath)]?.ToString())}";
+                    serverObjectsPath = $"{WorkspacePath}/{AppSettings["AppEnd"]?.AsObject()?[nameof(ServerObjectsPath)]?.ToString()}";
                 }
                 return serverObjectsPath;
             }
@@ -74,7 +75,7 @@ namespace AppEnd
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
                     }
-                    clientObjectsPath = $"{WorkspacePath}/{(AppSettings["AppEnd"]?.AsObject()?[nameof(ClientObjectsPath)]?.ToString())}";
+                    clientObjectsPath = $"{WorkspacePath}/{AppSettings["AppEnd"]?.AsObject()?[nameof(ClientObjectsPath)]?.ToString()}";
                 }
                 return clientObjectsPath;
             }

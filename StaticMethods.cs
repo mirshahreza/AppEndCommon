@@ -1,11 +1,6 @@
-﻿using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-
-namespace AppEnd
+﻿namespace AppEnd
 {
-    public static class StaticMethods
+	public static class StaticMethods
     {
         
         public static string GetUniqueName(string prefix = "param")

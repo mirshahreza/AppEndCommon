@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace AppEnd
 {
-    public class AppEndClass(string className, string namespaceName)
+	public class AppEndClass(string className, string namespaceName)
 	{
         private readonly string tempBody = CSharpImpBodies.ClassImp.Replace("$Namespace$", namespaceName).Replace("$ClassName$", className);
 
