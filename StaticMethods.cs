@@ -12,11 +12,12 @@
             return $"{prefix}{(new Random()).Next(100)}";
         }
 
-        public static void LogImmed(string content, string filePreFix = "Trace-", string baseFolder = "log", string subFolder = "")
-        {
-            string fn = $"{filePreFix}{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}-{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}-{DateTime.Now.Millisecond}-{+(new Random()).Next(100)}.txt";
-            File.WriteAllText(Path.Combine($"{baseFolder}{(subFolder == "" ? "" : $"/{subFolder}")}", fn), content);
-        }
+		public static void LogImmed(string content, string logFolder, string subFolder = "", string filePreFix = "")
+		{
+			string fn = $"{filePreFix}{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}-{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}-{DateTime.Now.Millisecond}-{+(new Random()).Next(100)}.txt";
+			File.WriteAllText(Path.Combine($"{logFolder}{(subFolder == "" ? "" : $"/{subFolder}")}", fn), content);
+		}
 
-    }
+
+	}
 }
