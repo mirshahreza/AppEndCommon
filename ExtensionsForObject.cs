@@ -30,6 +30,11 @@
 			}
 			return ifHasProblem;
 		}
+		public static int To01Safe(this bool o)
+		{
+			if(o==true) return 1;
+			return 0;
+		}
 
 		public static object FixNull(this object? o, object ifNull)
         {
