@@ -23,8 +23,7 @@
 		{
 			string i = o.ToStringEmpty();
 			if (i.IsNullOrEmpty()) return ifHasProblem;
-			bool ii;
-			if (bool.TryParse(i, out ii))
+			if (bool.TryParse(i, out bool ii))
 			{
 				return ii;
 			}
