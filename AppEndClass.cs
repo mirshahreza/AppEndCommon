@@ -33,13 +33,7 @@ namespace AppEnd
 	internal static class CSharpImpBodies
     {
         internal static string ClassImp => @"
-using System;
-using System.Text.Encodings;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using AppEndDbIO;
 using AppEnd;
 
 namespace $Namespace$

@@ -9,12 +9,12 @@ namespace AppEnd
 		public const string ConfigSectionName = "AppEnd";
 		public static List<string> ReservedFolders = ["..lib", "..templates", "appendstudio", ".DbComponents", ".PublicComponents", ".SharedComponents"];
 
-		private static JsonArray? dbServers;
+		private static JsonArray? _dbServers;
         public static JsonArray DbServers
         {
             get
             {
-                if (dbServers is null)
+                if (_dbServers is null)
                 {
                     if (AppSettings[ConfigSectionName] == null) AppSettings[ConfigSectionName] = JsonNode.Parse("{}")?.AsObject();
                     if (AppSettings[ConfigSectionName]?[nameof(DbServers)] == null)
@@ -32,117 +32,43 @@ namespace AppEnd
                             WriteIndented = true
                         });
                         File.WriteAllText("appsettings.json", s);
-                        appsettings = null;
+                        _appsettings = null;
                     }
-                    dbServers = AppSettings[ConfigSectionName]?[nameof(DbServers)]?.AsArray();
+                    _dbServers = AppSettings[ConfigSectionName]?[nameof(DbServers)]?.AsArray();
                 }
-                return dbServers;
+                return _dbServers;
             }
         }
-        public static string WorkspacePath
-        {
-            get
-            {
-                return "workspace";
-            }
-        }
-		public static string ServerObjectsPath
-		{
-			get
-			{
-				return $"{WorkspacePath}/server";
-			}
-		}
-		public static string ApiCallsPath
-		{
-			get
-			{
-				return $"{WorkspacePath}/apicalls";
-			}
-		}
-		public static string ClientObjectsPath
-        {
-            get
-            {
-                return $"{WorkspacePath}/client";
-            }
-        }
+        public static string WorkspacePath => "workspace";
 
-		public static string LoginDbConfName
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(LoginDbConfName)]?.ToString() ?? "DefaultRepo";
-			}
-		}
-		public static string LogDbConfName
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(LogDbConfName)]?.ToString() ?? "DefaultRepo";
-			}
-		}
-		public static int LogWriterQueueCap
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(LogWriterQueueCap)]?.ToIntSafe() ?? 0;
-			}
-		}
-		
-		public static string TalkPoint
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(TalkPoint)]?.ToString() ?? "talk-to-me";
-			}
-		}
-		public static string PublicKeyRole
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
-			}
-		}
-		public static string DefaultSuccessLoggerMethod
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(DefaultSuccessLoggerMethod)]?.ToString() ?? "";
-			}
-		}
-		public static string DefaultErrorLoggerMethod
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(DefaultErrorLoggerMethod)]?.ToString() ?? "";
-			}
-		}
-		public static string PublicKeyUser
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
-			}
-		}
-		public static string[]? PublicMethods
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
-			}
-		}
+        public static string ServerObjectsPath => $"{WorkspacePath}/server";
 
-		public static string Secret
-		{
-			get
-			{
-				return AppSettings[ConfigSectionName]?[nameof(Secret)]?.ToString() ?? ConfigSectionName;
-			}
-		}
+        public static string ApiCallsPath => $"{WorkspacePath}/apicalls";
+
+        public static string ClientObjectsPath => $"{WorkspacePath}/client";
+
+        public static string LoginDbConfName => AppSettings[ConfigSectionName]?[nameof(LoginDbConfName)]?.ToString() ?? "DefaultRepo";
+
+        public static string LogDbConfName => AppSettings[ConfigSectionName]?[nameof(LogDbConfName)]?.ToString() ?? "DefaultRepo";
+
+        public static int LogWriterQueueCap => AppSettings[ConfigSectionName]?[nameof(LogWriterQueueCap)]?.ToIntSafe() ?? 0;
+
+        public static string TalkPoint => AppSettings[ConfigSectionName]?[nameof(TalkPoint)]?.ToString() ?? "talk-to-me";
+
+        public static string PublicKeyRole => AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
+
+        public static string DefaultSuccessLoggerMethod => AppSettings[ConfigSectionName]?[nameof(DefaultSuccessLoggerMethod)]?.ToString() ?? "";
+
+        public static string DefaultErrorLoggerMethod => AppSettings[ConfigSectionName]?[nameof(DefaultErrorLoggerMethod)]?.ToString() ?? "";
+
+        public static string PublicKeyUser => AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
+
+        public static string[]? PublicMethods => AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
+
+        public static string Secret => AppSettings[ConfigSectionName]?[nameof(Secret)]?.ToString() ?? ConfigSectionName;
 
 
-		private static JsonNode? appsettings;
+        private static JsonNode? _appsettings;
         public static JsonNode AppSettings
         {
             get
@@ -151,18 +77,18 @@ namespace AppEnd
                     .AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
                             ;
 
-                appsettings ??= JsonNode.Parse(File.ReadAllText("appsettings.json"));
+                _appsettings ??= JsonNode.Parse(File.ReadAllText("appsettings.json"));
 
-				if (appsettings is null) throw new AppEndException("AppSettingsFileIsNotExist")
+				if (_appsettings is null) throw new AppEndException("AppSettingsFileIsNotExist")
 					.AddParam("Site", $"{System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name}, {System.Reflection.MethodBase.GetCurrentMethod()?.Name}")
 							;
-				return appsettings;
+				return _appsettings;
             }
         }
 
         public static void RefereshSettings()
         {
-            appsettings = null;
+            _appsettings = null;
         }
 
     }

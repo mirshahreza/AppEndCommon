@@ -7,17 +7,17 @@ namespace AppEnd
 {
     public static class ExtensionsForEncription
     {
-        private static readonly JWT.Serializers.JsonNetSerializer jsonNetSerializer = new();
-        private static readonly JwtBase64UrlEncoder jwtBase64UrlEncoder = new();
-        private static readonly HMACSHA512Algorithm hMACSHA256Algorithm = new();
-        private static readonly UtcDateTimeProvider utcDateTimeProvider = new();
-        private static readonly JwtValidator jwtValidator = new(jsonNetSerializer, utcDateTimeProvider);
-        private static readonly JwtEncoder enc = new(hMACSHA256Algorithm, jsonNetSerializer, jwtBase64UrlEncoder);
-        private static readonly JwtDecoder dec = new(jsonNetSerializer, jwtValidator, jwtBase64UrlEncoder, hMACSHA256Algorithm);
+        private static readonly JWT.Serializers.JsonNetSerializer JsonNetSerializer = new();
+        private static readonly JwtBase64UrlEncoder JwtBase64UrlEncoder = new();
+        private static readonly HMACSHA512Algorithm HMacsha256Algorithm = new();
+        private static readonly UtcDateTimeProvider UtcDateTimeProvider = new();
+        private static readonly JwtValidator JwtValidator = new(JsonNetSerializer, UtcDateTimeProvider);
+        private static readonly JwtEncoder Enc = new(HMacsha256Algorithm, JsonNetSerializer, JwtBase64UrlEncoder);
+        private static readonly JwtDecoder Dec = new(JsonNetSerializer, JwtValidator, JwtBase64UrlEncoder, HMacsha256Algorithm);
 
         public static string Encode(this object o, string secret)
         {
-            return enc.Encode(null, o, Encoding.Unicode.GetBytes(secret));
+            return Enc.Encode(null, o, Encoding.Unicode.GetBytes(secret));
         }
 
         public static string Decode(this string token, string secret)
@@ -27,7 +27,7 @@ namespace AppEnd
                     ;
             JwtParts jpS;
             jpS = new JwtParts(token);
-            return dec.Decode(jpS, Encoding.Unicode.GetBytes(secret), true);
+            return Dec.Decode(jpS, Encoding.Unicode.GetBytes(secret), true);
         }
 
         public static string GetMD5Hash(this string input)
