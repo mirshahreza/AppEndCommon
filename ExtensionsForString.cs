@@ -4,17 +4,17 @@ namespace AppEnd
 {
     public static partial class ExtensionsForString
     {
-		//public static int ToIntSafe(this string? s, int ifError=0)
-		//{
-  //          if (int.TryParse(s, out int o)) return o;
-  //          return ifError;
-		//}
+		public static bool EndsWithIgnoreCase(this string? s, string? testString)
+		{
+			if (s is null || testString is null) return false;
+			if (s is null || s == "" || testString is null || testString == "") return false;
+			return s.EndsWith(testString, StringComparison.CurrentCultureIgnoreCase);
+		}
 		public static bool EqualsIgnoreCase(this string? s, string? testString)
 		{
-			if (s is null && testString is null) return true;
+			if (s is null || testString is null) return false;
 			if (s is null || s == "" || testString is null || testString == "") return false;
-			if (s.Equals(testString, StringComparison.CurrentCultureIgnoreCase)) return true;
-			return false;
+            return s.Equals(testString, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		public static bool ContainsIgnoreCase(this string? s, string? testString)
