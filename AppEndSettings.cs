@@ -14,7 +14,7 @@ namespace AppEnd
         {
             get
             {
-                if (dbServers == null)
+                if (dbServers is null)
                 {
                     if (AppSettings[ConfigSectionName] == null) AppSettings[ConfigSectionName] = JsonNode.Parse("{}")?.AsObject();
                     if (AppSettings[ConfigSectionName]?[nameof(DbServers)] == null)
@@ -68,67 +68,68 @@ namespace AppEnd
             }
         }
 
+		public static string LoginDbConfName
+		{
+			get
+			{
+				return AppSettings[ConfigSectionName]?[nameof(LoginDbConfName)]?.ToString() ?? "DefaultRepo";
+			}
+		}
 		public static string LogDbConfName
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(LogDbConfName)]?.ToString() ?? "DefaultRepo";
+				return AppSettings[ConfigSectionName]?[nameof(LogDbConfName)]?.ToString() ?? "DefaultRepo";
 			}
 		}
 		public static int LogWriterQueueCap
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(LogWriterQueueCap)]?.ToIntSafe() ?? 0;
+				return AppSettings[ConfigSectionName]?[nameof(LogWriterQueueCap)]?.ToIntSafe() ?? 0;
 			}
 		}
-		public static string UsersListMethod
-		{
-			get
-			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(UsersListMethod)]?.ToString() ?? "DefaultRepo.AAA_Users.ReadListForLoginUse";
-			}
-		}
+		
 		public static string TalkPoint
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(TalkPoint)]?.ToString() ?? "talk-to-me";
+				return AppSettings[ConfigSectionName]?[nameof(TalkPoint)]?.ToString() ?? "talk-to-me";
 			}
 		}
 		public static string PublicKeyRole
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
+				return AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
 			}
 		}
 		public static string DefaultSuccessLoggerMethod
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(DefaultSuccessLoggerMethod)]?.ToString() ?? "";
+				return AppSettings[ConfigSectionName]?[nameof(DefaultSuccessLoggerMethod)]?.ToString() ?? "";
 			}
 		}
 		public static string DefaultErrorLoggerMethod
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(DefaultErrorLoggerMethod)]?.ToString() ?? "";
+				return AppSettings[ConfigSectionName]?[nameof(DefaultErrorLoggerMethod)]?.ToString() ?? "";
 			}
 		}
 		public static string PublicKeyUser
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
+				return AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
 			}
 		}
 		public static string[]? PublicMethods
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
+				return AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
 			}
 		}
 
@@ -136,7 +137,7 @@ namespace AppEnd
 		{
 			get
 			{
-				return AppEndSettings.AppSettings[ConfigSectionName]?[nameof(Secret)]?.ToString() ?? ConfigSectionName;
+				return AppSettings[ConfigSectionName]?[nameof(Secret)]?.ToString() ?? ConfigSectionName;
 			}
 		}
 
