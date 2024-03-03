@@ -20,7 +20,7 @@ namespace AppEnd
 
 			ImageCodecInfo[] info = ImageCodecInfo.GetImageEncoders();
 			EncoderParameters encoderParams = new(1);
-			encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 255L);
+			encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, 255L);
 			newImage.Save(m, info[1], encoderParams);
 
 			return m.GetBuffer();
@@ -31,13 +31,13 @@ namespace AppEnd
             Size newSize = new();
             if (oldSize.Height > oldSize.Width)
             {
-                newSize.Width = (int)(oldSize.Width * ((float)targetSize / (float)oldSize.Height));
+                newSize.Width = (int)(oldSize.Width * (targetSize / (float)oldSize.Height));
                 newSize.Height = targetSize;
             }
             else
             {
                 newSize.Width = targetSize;
-                newSize.Height = (int)(oldSize.Height * ((float)targetSize / (float)oldSize.Width));
+                newSize.Height = (int)(oldSize.Height * (targetSize / (float)oldSize.Width));
             }
             return newSize;
         }

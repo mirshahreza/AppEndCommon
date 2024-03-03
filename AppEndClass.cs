@@ -4,7 +4,7 @@ namespace AppEnd
 {
 	public class AppEndClass(string className, string namespaceName)
 	{
-        private readonly string tempBody = CSharpImpBodies.ClassImp.Replace("$Namespace$", namespaceName).Replace("$ClassName$", className);
+        private readonly string _tempBody = CSharpImpBodies.ClassImp.Replace("$Namespace$", namespaceName).Replace("$ClassName$", className);
 
         public List<string> Methods { get; set; } = [];
 
@@ -13,20 +13,13 @@ namespace AppEnd
             StringBuilder sb = new();
             foreach (var method in Methods)
 				sb.Append(CSharpImpBodies.MethodImp.Replace("$MethodName$", method));
-			return tempBody.Replace("$Methods$", sb.ToString());
+			return _tempBody.Replace("$Methods$", sb.ToString());
         }
     }
 
     public class AppEndMethod(string methodName)
 	{
-        private readonly string methodName = methodName;
-        public string MethodImplementation 
-        {
-            get
-            {
-                return CSharpImpBodies.MethodImp.Replace("$MethodName$", methodName);
-			}
-        }
+		public string MethodImplementation => CSharpImpBodies.MethodImp.Replace("$MethodName$", methodName);
 	}
 
 

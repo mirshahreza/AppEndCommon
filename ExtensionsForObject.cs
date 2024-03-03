@@ -31,7 +31,7 @@
 		}
 		public static int To01Safe(this bool o)
 		{
-			if(o==true) return 1;
+			if(o) return 1;
 			return 0;
 		}
 
