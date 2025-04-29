@@ -24,7 +24,21 @@ namespace AppEndCommon
             }
         }
 
-        public static void Save()
+		public static string GetAppSettings(string key)
+		{
+			if (AppSettings[key] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			return AppSettings[key]?.ToString() ?? string.Empty;
+		}
+
+		public static string GetConnectionStringByName(string connectionStringName)
+		{
+			if (AppSettings["ConnectionStrings"] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			if (AppSettings["ConnectionStrings"]?[connectionStringName] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			return AppSettings["ConnectionStrings"]?[connectionStringName]?.ToString() ?? string.Empty;
+		}
+
+
+		public static void Save()
         {
 			string appSettingsText = JsonSerializer.Serialize(AppSettings, options: new()
 			{
