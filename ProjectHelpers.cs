@@ -9,6 +9,7 @@ namespace AppEndCommon
 		public static string RootUserName => AppSettings["AppEnd"]?[nameof(RootUserName)]?.ToString() ?? nameof(RootUserName);
 		public static string RootRoleName => AppSettings["AppEnd"]?[nameof(RootRoleName)]?.ToString() ?? nameof(RootRoleName);
 		public static string[] PublicMethods => AppSettings["AppEnd"]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray() ?? [];
+		public static JsonNode AppEndSection => AppSettings["AppEnd"] ?? null;
 
 		public static DirectoryInfo ProjectRoot => new(".");
 
@@ -35,6 +36,20 @@ namespace AppEndCommon
 			if (AppSettings["ConnectionStrings"] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
 			if (AppSettings["ConnectionStrings"]?[connectionStringName] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
 			return AppSettings["ConnectionStrings"]?[connectionStringName]?.ToString() ?? string.Empty;
+		}
+
+		public static string GetConnectionStringDefault()
+		{
+			if (AppSettings["ConnectionStrings"] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			if (AppSettings["ConnectionStrings"]?["DefaultConnection"] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			return AppSettings["ConnectionStrings"]?["DefaultConnection"]?.ToString() ?? string.Empty;
+		}
+
+		public static string GetConnectionStringFirstOne()
+		{
+			if (AppSettings["ConnectionStrings"] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			if (AppSettings["ConnectionStrings"]?[0] is null) throw new ExtException("AppSettingsKeyIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+			return AppSettings["ConnectionStrings"]?[0]?.ToString() ?? string.Empty;
 		}
 
 
