@@ -8,7 +8,7 @@ namespace AppEndCommon
 	{
 		public string Id { get; set; } = "-1";
 		public string UserName { get; set; } = "nobody";
-		public List<Role> Roles { set; get; } = [];
+		public List<string> RoleIds { set; get; } = [];
 		public Hashtable ExtraInfo { set; get; } = [];
 	}
 
@@ -40,8 +40,8 @@ namespace AppEndCommon
 			{
 				Id = actor.Id,
 				UserName = actor.UserName,
-				RoleIds = [.. actor.Roles.Select(i => i.Id)],
-				RoleNames = [.. actor.Roles.Select(i => i.RoleName)]
+				RoleIds = actor.RoleIds,
+				RoleNames = [.. ProjectHelpers.ApplicationRoles.Where(i => actor.RoleIds.Contains(i.Id)).Select(i => i.RoleName)],
 			};
 		}
 
@@ -50,15 +50,6 @@ namespace AppEndCommon
 			return $"User::{actor.Id},{actor.UserName},{EndFix}";
 		}
 
-		public static List<string> GetRoleIds(this User actor)
-		{
-			return [.. actor.Roles.Select(i => i.Id)];
-		}
-
-		public static List<string> GetRoleNames(this User actor)
-		{
-			return [.. actor.Roles.Select(i => i.RoleName)];
-		}
 		public static void MemoryAdd(this User actor)
 		{
 			actor.MemoryAdd(actor.GetCacheKey("FullObject"));
