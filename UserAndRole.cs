@@ -4,55 +4,69 @@ using System.Data;
 
 namespace AppEndCommon
 {
-	public record User
+	public record UserClientObject
 	{
-		public string Id { get; set; } = "-1";
-		public string UserName { get; set; } = "nobody";
-		public List<string> RoleIds { set; get; } = [];
-		public Hashtable ExtraInfo { set; get; } = [];
+		public required string Id { get; set; }
+		public required string UserName { get; set; }
+		public List<Role> Roles { set; get; } = [];
+		public bool IsPubKey { get; set; } = false;
+		public DateTime GeneratedOn { get; } = DateTime.Now;
 	}
 
-	public record UserTokenFriendly
+	public record UserServerObject
 	{
-		public required string Id { get; set; } 
+		public required string Id { get; set; }
 		public required string UserName { get; set; }
-		public List<string> RoleIds { set; get; } = [];
-		public List<string> RoleNames { set; get; } = []; 
+		public List<Role> Roles { set; get; } = [];
+		public bool IsPubKey { get; set; } = false;
+		public DateTime GeneratedOn { get; } = DateTime.Now;
+
+		public List<Action> AllowedActions { set; get; } = [];
+		public Hashtable MoreInfo { set; get; } = [];
 	}
+
 
 	public record Role
 	{
 		public string Id { get; set; } = "-1";
 		public required string RoleName { get; set; }
-		public Hashtable ExtraInfo { set; get; } = [];
+		public bool IsPubKey { get; set; } = false;
+
+		public Hashtable MoreInfo { set; get; } = [];
 	}
 
 	public static class ActorExtensions
 	{
-		public static string Tokenize(this User actor, string EndFix = "")
+		public static string Tokenize(this UserServerObject actor, string EndFix = "")
 		{
-			return actor.ToTokenFriendly().Encode(ProjectHelpers.EncriptionSecret);
+			return actor.ToClientVersion().Encode(ProjectHelpers.EncriptionSecret);
 		}
 
-		public static UserTokenFriendly ToTokenFriendly(this User actor)
+		public static UserClientObject ToClientVersion(this UserServerObject actor)
 		{
-			return new UserTokenFriendly
+			return new UserClientObject
 			{
 				Id = actor.Id,
 				UserName = actor.UserName,
-				RoleIds = actor.RoleIds,
-				RoleNames = [.. ProjectHelpers.ApplicationRoles.Where(i => actor.RoleIds.Contains(i.Id)).Select(i => i.RoleName)],
+				Roles = actor.Roles,
+				IsPubKey = actor.IsPubKey
 			};
 		}
 
-		public static string GetCacheKey(this User actor, string EndFix = "")
+		public static string GetCacheKey(this UserServerObject actor, string EndFix = "")
 		{
 			return $"User::{actor.Id},{actor.UserName},{EndFix}";
 		}
 
-		public static void MemoryAdd(this User actor)
+		public static void ToCache(this UserServerObject actor)
 		{
-			actor.MemoryAdd(actor.GetCacheKey("FullObject"));
+			actor.AddCache(actor.GetCacheKey("FullObject"));
+		}
+
+		public static UserServerObject? FromCache(string cacheKey)
+		{
+			ExtMemory.SharedMemoryCache.TryGetValue(cacheKey, out var cache);
+			return (UserServerObject?)cache;
 		}
 
 	}

@@ -52,11 +52,11 @@
 			else return o;
 		}
 
-		public static void MemoryAdd(this object? o, string catcheKey)
+		public static void AddCache(this object? o, string catcheKey)
 		{
 			ExtMemory.SharedMemoryCache.TryAdd(catcheKey, o);
 		}
-		public static void MemoryRemove(this object? o, string catcheKey)
+		public static void RemoveCache(this object? o, string catcheKey)
 		{
 			ExtMemory.SharedMemoryCache.TryRemove(catcheKey);
 		}

@@ -5,7 +5,7 @@ namespace AppEndCommon
 {
 	public static class ProjectHelpers
 	{
-		public static List<Role> ApplicationRoles = [];
+		//public static List<Role> ApplicationRoles = [];
 
 		public static string EncriptionSecret => AppSettings["AppEnd"]?[nameof(EncriptionSecret)]?.ToString() ?? nameof(EncriptionSecret);
 		public static string RootUserName => AppSettings["AppEnd"]?[nameof(RootUserName)]?.ToString() ?? nameof(RootUserName);
