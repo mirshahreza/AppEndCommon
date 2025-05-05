@@ -6,7 +6,7 @@ namespace AppEndCommon
 {
 	public record UserClientObject
 	{
-		public required string Id { get; set; }
+		public required int Id { get; set; } = 0;
 		public required string UserName { get; set; }
 		public List<Role> Roles { set; get; } = [];
 		public bool IsPubKey { get; set; } = false;
@@ -15,7 +15,7 @@ namespace AppEndCommon
 
 	public record UserServerObject
 	{
-		public required string Id { get; set; }
+		public required int Id { get; set; } = 0;
 		public required string UserName { get; set; }
 		public List<Role> Roles { set; get; } = [];
 		public bool IsPubKey { get; set; } = false;
@@ -28,7 +28,7 @@ namespace AppEndCommon
 
 	public record Role
 	{
-		public string Id { get; set; } = "-1";
+		public int Id { get; set; } = 0;
 		public required string RoleName { get; set; }
 		public bool IsPubKey { get; set; } = false;
 
