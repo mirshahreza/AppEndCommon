@@ -58,13 +58,18 @@ namespace AppEndCommon
         {
             return JsonSerializer.Serialize(o);
         }
-		
-		public static JsonElement ToJsonElementByBuiltIn(this object o)
-        {
-            return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByBuiltIn(false));
-        }
 
-        public static string[]? DeserializeAsStringArray(this string? o)
+		public static JsonElement ToJsonElementByBuiltIn(this object o)
+		{
+			return JsonSerializer.Deserialize<JsonElement>(o.ToJsonStringByBuiltIn(false));
+		}
+		public static JsonObject ToJsonObjectByBuiltIn(this object o)
+		{
+			return JsonSerializer.Deserialize<JsonObject>(o.ToJsonStringByBuiltIn(false)) ?? new JsonObject();
+		}
+		
+
+		public static string[]? DeserializeAsStringArray(this string? o)
         {
             if (o is null) return null;
             return JsonSerializer.Deserialize<string[]>(o);
