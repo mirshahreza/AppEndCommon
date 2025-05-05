@@ -19,11 +19,27 @@
 			return false;
 		}
 
-		public static bool HasIntersect(this List<string>? list, string[]? testArr)
+		public static bool HasIntersect(this List<string>? l1, string[]? l2)
 		{
-			if (testArr is null || testArr.Length == 0) return false;
-			if (list is null || testArr.Length == 0) return false;
-			foreach (string str in list) if (testArr.ContainsIgnoreCase(str)) return true;
+			if (l2 is null || l2.Length == 0) return false;
+			if (l1 is null || l2.Length == 0) return false;
+			foreach (string str in l1) if (l2.ContainsIgnoreCase(str)) return true;
+			return false;
+		}
+
+		public static bool HasIntersect(this List<int>? l1, int[]? l2)
+		{
+			if (l2 is null || l2.Length == 0) return false;
+			if (l1 is null || l2.Length == 0) return false;
+			foreach (int i in l1) if (l2.Contains(i)) return true;
+			return false;
+		}
+
+		public static bool HasIntersect(this List<int>? l1, List<int>? l2)
+		{
+			if (l2 is null || l2.Count == 0) return false;
+			if (l1 is null || l1.Count == 0) return false;
+			foreach (int i in l1) if (l2.Contains(i)) return true;
 			return false;
 		}
 
