@@ -1,6 +1,7 @@
 ﻿using AppEndCommon;
 using System.Collections;
 using System.Data;
+using System.Text.Json.Nodes;
 
 namespace AppEndCommon
 {
@@ -22,7 +23,7 @@ namespace AppEndCommon
 		public DateTime GeneratedOn { get; } = DateTime.Now;
 
 		public List<Action> AllowedActions { set; get; } = [];
-		public Hashtable MoreInfo { set; get; } = [];
+		public JsonObject Data { set; get; } = [];
 	}
 
 
@@ -32,7 +33,7 @@ namespace AppEndCommon
 		public required string RoleName { get; set; }
 		public bool IsPubKey { get; set; } = false;
 
-		public Hashtable MoreInfo { set; get; } = [];
+		public JsonObject Data { set; get; } = [];
 	}
 
 	public static class ActorExtensions
