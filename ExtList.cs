@@ -2,13 +2,13 @@
 {
 	public static class ExtList
     {
-		public static void AddIfNotContains(this List<string> list, string name)
+		public static bool TryAdd(this List<object>? list, object o, bool AddNull = true)
 		{
-			if (!list.ContainsIgnoreCase(name)) list.Add(name);
-		}
-		public static void AddSafe(this List<string> list, string? name)
-		{
-			if (name is not null) list.Add(name);
+			if (list is null) list = [];
+			if(AddNull is false &&  o is null) return false;
+			if (list.Contains(o)) return false;
+			list.Add(o);
+			return true;
 		}
 
 		public static bool ContainsIgnoreCase(this List<string>? list, string? testString)
