@@ -4,8 +4,7 @@
     {
         public static string ToStringEmpty(this object? o)
         {
-            if (o is null) return "";
-            return o.ToString();
+            return o?.ToString() ?? "";
         }
         public static int ToIntSafe(this object? o, int ifHasProblem = -1)
         {
@@ -60,8 +59,5 @@
 		{
 			ExtMemory.SharedMemoryCache.TryRemove(catcheKey);
 		}
-
-
-
 	}
 }

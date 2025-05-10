@@ -29,18 +29,14 @@ namespace AppEndCommon
 
 		public static async Task<JsonElement> ToJsonAsync(this HttpRequest request)
 		{
-			using (var memoryStream = new MemoryStream())
-			{
-				await request.Body.CopyToAsync(memoryStream);
-				memoryStream.Seek(0, SeekOrigin.Begin);
+			using var memoryStream = new MemoryStream();
+			await request.Body.CopyToAsync(memoryStream);
+			memoryStream.Seek(0, SeekOrigin.Begin);
 
-				using (var reader = new StreamReader(memoryStream))
-				{
-					string body = await reader.ReadToEndAsync();
-					if (string.IsNullOrEmpty(body)) return default;
-					return JsonDocument.Parse(body).RootElement;
-				}
-			}
+			using var reader = new StreamReader(memoryStream);
+			string body = await reader.ReadToEndAsync();
+			if (string.IsNullOrEmpty(body)) return default;
+			return JsonDocument.Parse(body).RootElement;
 		}
 
 	}
