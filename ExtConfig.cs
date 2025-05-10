@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace AppEndCommon
 {
-	public static class ProjectHelpers
+	public static class ExtConfig
 	{
 		//public static List<Role> ApplicationRoles = [];
 
@@ -11,7 +11,7 @@ namespace AppEndCommon
 		public static string RootUserName => AppSettings["AppEnd"]?[nameof(RootUserName)]?.ToString() ?? nameof(RootUserName);
 		public static string RootRoleName => AppSettings["AppEnd"]?[nameof(RootRoleName)]?.ToString() ?? nameof(RootRoleName);
 		public static string[] PublicMethods => AppSettings["AppEnd"]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray() ?? [];
-		public static JsonNode AppEndSection => AppSettings["AppEnd"];
+		public static JsonNode AppEndSection => AppSettings["AppEnd"] ?? new JsonObject();
 
 		public static DirectoryInfo ProjectRoot => new(".");
 

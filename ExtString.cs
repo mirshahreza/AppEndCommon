@@ -26,7 +26,7 @@ namespace AppEndCommon
             s = s.Replace("\\", "/");
             s = s.Replace("//", "/");
             s = s.Replace("//", "/");
-            s = removeBasePath == true ? s.Replace(ProjectHelpers.ProjectRoot.FullName.NormalizeAsHostPath(false), "") : s;
+            s = removeBasePath == true ? s.Replace(ExtConfig.ProjectRoot.FullName.NormalizeAsHostPath(false), "") : s;
             s = s.StartsWith("/") ? s[1..] : s;
             return s;
         }

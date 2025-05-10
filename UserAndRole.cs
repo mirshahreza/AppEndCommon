@@ -40,7 +40,7 @@ namespace AppEndCommon
 	{
 		public static string Tokenize(this UserServerObject actor, string EndFix = "")
 		{
-			return actor.ToClientVersion().Encode(ProjectHelpers.EncriptionSecret);
+			return actor.ToClientVersion().Encode(ExtConfig.EncriptionSecret);
 		}
 
 		public static UserClientObject ToClientVersion(this UserServerObject actor)
